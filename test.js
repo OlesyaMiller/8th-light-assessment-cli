@@ -1,5 +1,5 @@
 const fetch = require("node-fetch");
-const prompt = require('prompt-sync')();
+const prompt = require('prompt-sync')({sigint: true});
 
 baseUrl = "https://www.googleapis.com/books/v1/volumes?q="
 apiKey = "AIzaSyAAOCTRfoHkv8KW7h3BjVvIe-z_NIZYgig"
@@ -14,53 +14,34 @@ function fetchBooks(query) {
 }
 
 function getBooks(){
-  let input = null 
-  console.log("enter search term")
+  let term = null 
   console.log("to exit the program any time type 'exit'")
-//   while(input !== "exit") {
-    process.openStdin().on('data',function(res){ //'on' instead of 'listeners'
-        input = res 
-        console.log("you entered " + input + " ,inside getBooks")
-        // if(input !== "") {
-          fetchBooks(input)
-        // } else if (input==="exit"){
-        //   return 
-        // }
-        // else {
-        //   console.log("enter correct input")
-        // }
-    })
-  
-//   addBook()
+  term = prompt('Enter serach term')
+  console.log("You entered '" + term + "' inside books")
+  if(term === "exit") {
+    return
+  } else {
+    fetchBooks(term)
+  }
 }
 
 function addBook(data){
-    // let input = null 
-    // let myBooks = []
-    // console.log("Please enter the number of the book you want to add to your cart")
-    // while(input !== "exit")
-      process.openStdin().on('data',function(res){ //'on' instead of 'listeners'  
-        let input = parseInt(res) - 1
-        // if(data[input]) {
-        if([1,2,3,4,5].includes(input)) {
-        //   if(data.ind === true) {
-          // myBooks = [...myBooks, data[ind]]
-          myBooks.push(data[input])
-          console.log(myBooks)
-          console.log("Enter another book number or type 'exit'")
-          addBook(data)
-        } else if (input === "cart"){
-          console.log(myBooks)
-          addBook(data)
-        } else if (input === "exit") {
-            return
-        } else {
-            console.log("enter correct input")
-            addBook(data)
-        }
-      
-      })
+  let bookNum = prompt("Enter book number")
+  if([1,2,3,4,5].includes(Number(bookNum))){
+    myBooks.push(data[bookNum - 1])
+    console.log("Enter another book number or type 'exit'")
+    console.log("To see your cart type 'cart'")
+    addBook(data)
+  } else if (bookNum === "cart"){
+    console.log(myBooks)
+    addBook(data)
+  } else if (bookNum === "exit") {
+    return
+  } else {
+    console.log("enter correct input")
+    addBook(data)
   }
+}
 
 function displayData(data){
 //   console.log("Please enter the number of the book you want to add to your cart")
@@ -68,8 +49,8 @@ function displayData(data){
            
   filteredData.forEach((volume, index) => console.log((index+1) + ") " + volume.volumeInfo.title))
   console.log(filteredData.length)
-  console.log("Please enter the number of the book you want to add to your cart")
-  console.log("to see you cart type 'cart' at any time")
+  // console.log("Please enter the number of the book you want to add to your cart")
+  // console.log("to see you cart type 'cart' at any time")
   addBook(filteredData)
 }
 
