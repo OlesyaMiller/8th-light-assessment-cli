@@ -14,9 +14,8 @@ function fetchBooks(query) {
 }
 
 function getBooks(){
-  let term = null 
   console.log("to exit the program any time type 'exit'")
-  term = prompt('Enter serach term')
+  const term = prompt('Enter search term')
   console.log("You entered '" + term + "' inside books")
   if(term === "exit") {
     return
@@ -31,14 +30,19 @@ function addBook(data){
     myBooks.push(data[bookNum - 1])
     console.log("Enter another book number or type 'exit'")
     console.log("To see your cart type 'cart'")
+    console.log("To start a new search type 'search'")
     addBook(data)
   } else if (bookNum === "cart"){
-    console.log(myBooks)
+    console.log("")
+    console.log("YOUR CART:")
+    myBooks.forEach((book, ind) => displayVolumeData(ind, book.volumeInfo))
     addBook(data)
+  } else if (bookNum === "search") {
+    getBooks()
   } else if (bookNum === "exit") {
     return
   } else {
-    console.log("enter correct input")
+    console.log("Please enter correct input")
     addBook(data)
   }
 }
@@ -52,13 +56,9 @@ function displayVolumeData(ind, volume) {
 }
 
 function displayData(data){
-//   console.log("Please enter the number of the book you want to add to your cart")
   const filteredData = data.items.filter(volume => volume.volumeInfo.publisher).slice(0,5)
            
   filteredData.forEach((volume, index) => displayVolumeData(index, volume.volumeInfo))
-  console.log(filteredData.length)
-  // console.log("Please enter the number of the book you want to add to your cart")
-  // console.log("to see you cart type 'cart' at any time")
   addBook(filteredData)
 }
 
