@@ -43,11 +43,17 @@ function addBook(data){
   }
 }
 
+function displayVolumeData(volume) {
+  console.log("Title: " + volume.title)
+  console.log("Author: " + volume.authors[0])
+  console.log("Publisher: " + volume.publisher)
+}
+
 function displayData(data){
 //   console.log("Please enter the number of the book you want to add to your cart")
   const filteredData = data.items.filter(volume => volume.volumeInfo.publisher).slice(0,5)
            
-  filteredData.forEach((volume, index) => console.log((index+1) + ") " + volume.volumeInfo.title))
+  filteredData.forEach((volume, index) => console.log((index+1) + ") " + displayVolumeData(volume.volumeInfo)))
   console.log(filteredData.length)
   // console.log("Please enter the number of the book you want to add to your cart")
   // console.log("to see you cart type 'cart' at any time")
