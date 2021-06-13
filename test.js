@@ -1,4 +1,5 @@
 const fetch = require("node-fetch");
+const prompt = require('prompt-sync')();
 
 baseUrl = "https://www.googleapis.com/books/v1/volumes?q="
 apiKey = "AIzaSyAAOCTRfoHkv8KW7h3BjVvIe-z_NIZYgig"
@@ -40,7 +41,8 @@ function addBook(data){
     // while(input !== "exit")
       process.openStdin().on('data',function(res){ //'on' instead of 'listeners'  
         let input = parseInt(res) - 1
-        if(data[input]) {
+        // if(data[input]) {
+        if([1,2,3,4,5].includes(input)) {
         //   if(data.ind === true) {
           // myBooks = [...myBooks, data[ind]]
           myBooks.push(data[input])
