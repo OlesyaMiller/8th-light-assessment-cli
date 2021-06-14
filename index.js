@@ -1,4 +1,5 @@
-const fetch = require("node-fetch");
+const fetch = require('node-fetch');
+const prompt = require('prompt-sync')({sigint: true});
 
 class BookSearch {
 
@@ -13,41 +14,47 @@ class BookSearch {
       fetch(this.baseUrl+`${query}&projection=lite&key=${this.apiKey}`)
         .then(res => res.json())
         .then(data => {
-          filterData(data)
+          this.filterData(data)
         })
     }
       
     getBooks(){
+      console.log("Welcome to the Book Finder app!")  
+      console.log("To exit the program any time type 'exit'")  
       const term = prompt('Enter search term: ')
-      console.log("To exit the program any time type 'exit'")
       if(term === "exit") {
         return
-      } else {
-        fetchBooks(term)
+      } 
+      else if (term.trim() === "" || Number(term)) {
+        console.log("Please enter correct input")
+        this.getBooks()
+      } 
+      else {
+        this.fetchBooks(term)
       }
     }
       
     addBook(data){
-      let input = prompt("Enter book number: ")
-
+      console.log("To add a book to your reading list enter the number of the book")
       console.log("To see your reading list type 'list'")
       console.log("To start a new search type 'search'")
+      const input = prompt("Enter search term: ")
 
       if([1,2,3,4,5].includes(Number(input))){
-        myBooks.push(data[input - 1])
-        addBook(data)
+        this.myBooks.push(data[input - 1])
+        this.addBook(data)
       } else if (input === "list"){
         console.log("")
         console.log("YOUR READING LIST:")
-        myBooks.forEach((book, ind) => displayVolumeData(ind, book.volumeInfo))
-        addBook(data)
+        this.myBooks === [] ? console.log("[]") : this.myBooks.forEach((book, ind) => this.displayVolumeData(ind, book.volumeInfo))
+        this.addBook(data)
       } else if (input === "search") {
-        getBooks()
+        this.getBooks()
       } else if (input === "exit") {
         return
       } else {
         console.log("Please enter correct input")
-        addBook(data)
+        this.addBook(data)
       }
     }
       
@@ -61,8 +68,8 @@ class BookSearch {
       
     filterData(data){
         const filteredData = data.items.filter(volume => volume.volumeInfo.publisher).slice(0,5)
-        filteredData.forEach((volume, index) => displayVolumeData(index, volume.volumeInfo))
-        addBook(filteredData)
+        filteredData.forEach((volume, index) => this.displayVolumeData(index, volume.volumeInfo))
+        this.addBook(filteredData)
     }
 }
 
