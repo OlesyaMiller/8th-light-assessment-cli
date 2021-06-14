@@ -2,61 +2,69 @@ const fetch = require("node-fetch");
 
 class BookSearch {
 
+    constructor(myBooks) {
+      this.myBooks = myBooks
+    }
+
     baseUrl = "https://www.googleapis.com/books/v1/volumes?q="
     apiKey = "AIzaSyAAOCTRfoHkv8KW7h3BjVvIe-z_NIZYgig"
 
     fetchBooks(query) {
-        fetch(this.baseUrl+`${query}&projection=lite&key=${this.apiKey}`)
-          .then(res => res.json())
-          .then(data => {
-              const filteredData = data.items.filter(volume => volume.volumeInfo.publisher).slice(0,5)
-           
-              filteredData.forEach((volume, index) => console.log((index+1) + ") " + volume.volumeInfo.title))
-              console.log(filteredData.length)
-          })
+      fetch(this.baseUrl+`${query}&projection=lite&key=${this.apiKey}`)
+        .then(res => res.json())
+        .then(data => {
+          filterData(data)
+        })
     }
-
-    getInput(){
-        console.log("enter search term")
-        process.openStdin().on('data',function(res){ //'on' instead of 'listeners'
-            console.log("you entered " + res.toString())
-            this.fetchBooks(res.toString())
-        })
-        // this.fetchBooks(query)
-        // console.log("you entered " + query)        
-        // return query
-        // const readline = require('readline').createInterface({
-        //   input: process.stdin,
-        //   output: process.stdout
-        // })
-
-        // let title 
-        // readline.question(`What's your name?`, (name) => {
-        //   title = name            
-        //   readline.close()
-        // })
-        // return title
+      
+    getBooks(){
+      const term = prompt('Enter search term: ')
+      console.log("To exit the program any time type 'exit'")
+      if(term === "exit") {
+        return
+      } else {
+        fetchBooks(term)
+      }
     }
+      
+    addBook(data){
+      let input = prompt("Enter book number: ")
 
-    displayData(){
-        // console.log("enter search term")
-        // const query = this.getInput()
-        // this.fetchBooks(term)
-        const readline = require('readline').createInterface({
-          input: process.stdin,
-          output: process.stdout
-        })
-          
-        // let name 
-        readline.question(`Enter a search term`, (name) => {
-          // console.log(`Hi ${name}!`)
-          this.fetchBooks(name) 
-                   
-        //   readline.close()
-        })
-        
+      console.log("To see your reading list type 'list'")
+      console.log("To start a new search type 'search'")
+
+      if([1,2,3,4,5].includes(Number(input))){
+        myBooks.push(data[input - 1])
+        addBook(data)
+      } else if (input === "list"){
+        console.log("")
+        console.log("YOUR READING LIST:")
+        myBooks.forEach((book, ind) => displayVolumeData(ind, book.volumeInfo))
+        addBook(data)
+      } else if (input === "search") {
+        getBooks()
+      } else if (input === "exit") {
+        return
+      } else {
+        console.log("Please enter correct input")
+        addBook(data)
+      }
+    }
+      
+    displayVolumeData(ind, volume) {
+        console.log((ind + 1) + ")")
+        console.log("Title: " + volume.title)
+        console.log("Author: " + volume.authors[0])
+        console.log("Publisher: " + volume.publisher)
+        console.log("")
+    }
+      
+    filterData(data){
+        const filteredData = data.items.filter(volume => volume.volumeInfo.publisher).slice(0,5)
+        filteredData.forEach((volume, index) => displayVolumeData(index, volume.volumeInfo))
+        addBook(filteredData)
     }
 }
 
-const newSearch = new BookSearch()
-newSearch.getInput()
+const newSearch = new BookSearch([])
+newSearch.getBooks()

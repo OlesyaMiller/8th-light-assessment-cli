@@ -14,8 +14,8 @@ function fetchBooks(query) {
 }
 
 function getBooks(){
-  console.log("to exit the program any time type 'exit'")
   const term = prompt('Enter search term')
+  console.log("To exit the program any time type 'exit'")
   console.log("You entered '" + term + "' inside books")
   if(term === "exit") {
     return
@@ -25,7 +25,7 @@ function getBooks(){
 }
 
 function addBook(data){
-  let input = prompt("Enter book number")
+  let input = prompt("Enter book number ")
   console.log("To see your reading list type 'list'")
   console.log("To start a new search type 'search'")
   if([1,2,3,4,5].includes(Number(input))){
