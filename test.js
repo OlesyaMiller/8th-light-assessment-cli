@@ -9,7 +9,7 @@ function fetchBooks(query) {
   fetch(this.baseUrl+`${query}&projection=lite&key=${this.apiKey}`)
     .then(res => res.json())
     .then(data => {
-        displayData(data)
+        filterData(data)
     })
 }
 
@@ -25,21 +25,21 @@ function getBooks(){
 }
 
 function addBook(data){
-  let bookNum = prompt("Enter book number")
-  if([1,2,3,4,5].includes(Number(bookNum))){
-    myBooks.push(data[bookNum - 1])
-    console.log("Enter another book number or type 'exit'")
-    console.log("To see your cart type 'cart'")
-    console.log("To start a new search type 'search'")
+  let input = prompt("Enter book number")
+  console.log("To see your reading list type 'list'")
+  console.log("To start a new search type 'search'")
+  if([1,2,3,4,5].includes(Number(input))){
+    myBooks.push(data[input - 1])
+    // console.log("To add another book to your reading list enter book number from the list")
     addBook(data)
-  } else if (bookNum === "cart"){
+  } else if (input === "list"){
     console.log("")
-    console.log("YOUR CART:")
+    console.log("YOUR READING LIST:")
     myBooks.forEach((book, ind) => displayVolumeData(ind, book.volumeInfo))
     addBook(data)
-  } else if (bookNum === "search") {
+  } else if (input === "search") {
     getBooks()
-  } else if (bookNum === "exit") {
+  } else if (input === "exit") {
     return
   } else {
     console.log("Please enter correct input")
@@ -55,7 +55,7 @@ function displayVolumeData(ind, volume) {
   console.log("   ")
 }
 
-function displayData(data){
+function filterData(data){
   const filteredData = data.items.filter(volume => volume.volumeInfo.publisher).slice(0,5)
            
   filteredData.forEach((volume, index) => displayVolumeData(index, volume.volumeInfo))
