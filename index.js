@@ -38,9 +38,9 @@ class BookSearch {
       console.log("To add a book to your reading list enter the number of the book")
       console.log("To see your reading list type 'list'")
       console.log("To start a new search type 'search'")
-      const input = prompt("Enter search term: ")
-
-      if([1,2,3,4,5].includes(Number(input))){
+      let input = prompt("Enter search term: ")
+      input = input.toLowerCase()
+      if(Number(input) >= 1 && Number(input) <= data.length){
         this.myBooks.push(data[input - 1])
         this.addBook(data)
       } else if (input === "list"){
