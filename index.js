@@ -17,16 +17,58 @@ class BookSearch {
           this.filterData(data)
         })
     }
+
+    filterData(data){
+        const filteredData = data.items.filter(volume => volume.volumeInfo.publisher && volume.volumeInfo.authors).slice(0,5)
+        filteredData.forEach((volume, index) => this.displayVolumeData(index, volume.volumeInfo))
+        this.addBook(filteredData)
+    }
+
+    displayVolumeData(ind, volume) {
+        console.log((ind + 1) + ")")
+        console.log("Title: " + volume.title)
+        console.log("Authors:")
+        volume.authors.forEach(author => console.log("  " + author))
+        console.log("Publisher: " + volume.publisher)
+        console.log("")
+    }
+
+    addBook(data){
+        console.log("")
+        console.log("To add a book to your reading list enter the number of the book")
+        console.log("To see your reading list type 'list'")
+        console.log("To start a new search type 'search'")
+        let input = prompt("Enter search term: ")
+        console.log("")
+        input = input.toLowerCase()
+        if(Number(input) >= 1 && Number(input) <= data.length){
+          this.myBooks.push(data[Number(input) - 1])
+          this.addBook(data)
+        } else if (input === "list"){
+          console.log("")
+          console.log("YOUR READING LIST:")
+          this.myBooks.length === 0 ? console.log("Your reading list is empty") : this.myBooks.forEach((book, ind) => this.displayVolumeData(ind, book.volumeInfo))
+          this.addBook(data)
+        } else if (input === "search") {
+          this.getBooks()
+        } else if (input === "exit") {
+          return
+        } else {
+          console.log("PLEASE ENTER CORRECT INPUT")
+          this.addBook(data)
+        }
+      }
       
     getBooks(){
       console.log("Welcome to the Book Finder app!")  
-      console.log("To exit the program any time type 'exit'")  
+      console.log("To exit the program at any time type 'exit'")  
       const term = prompt('Enter search term: ')
+      console.log("")
       if(term === "exit") {
         return
       } 
       else if (term.trim() === "" || Number(term)) {
-        console.log("Please enter correct input")
+        console.log("PLEASE ENTER CORRECT INPUT")
         this.getBooks()
       } 
       else {
@@ -34,43 +76,6 @@ class BookSearch {
       }
     }
       
-    addBook(data){
-      console.log("To add a book to your reading list enter the number of the book")
-      console.log("To see your reading list type 'list'")
-      console.log("To start a new search type 'search'")
-      let input = prompt("Enter search term: ")
-      input = input.toLowerCase()
-      if(Number(input) >= 1 && Number(input) <= data.length){
-        this.myBooks.push(data[input - 1])
-        this.addBook(data)
-      } else if (input === "list"){
-        console.log("")
-        console.log("YOUR READING LIST:")
-        this.myBooks === [] ? console.log("[]") : this.myBooks.forEach((book, ind) => this.displayVolumeData(ind, book.volumeInfo))
-        this.addBook(data)
-      } else if (input === "search") {
-        this.getBooks()
-      } else if (input === "exit") {
-        return
-      } else {
-        console.log("Please enter correct input")
-        this.addBook(data)
-      }
-    }
-      
-    displayVolumeData(ind, volume) {
-        console.log((ind + 1) + ")")
-        console.log("Title: " + volume.title)
-        console.log("Author: " + volume.authors[0])
-        console.log("Publisher: " + volume.publisher)
-        console.log("")
-    }
-      
-    filterData(data){
-        const filteredData = data.items.filter(volume => volume.volumeInfo.publisher).slice(0,5)
-        filteredData.forEach((volume, index) => this.displayVolumeData(index, volume.volumeInfo))
-        this.addBook(filteredData)
-    }
 }
 
 const newSearch = new BookSearch([])
