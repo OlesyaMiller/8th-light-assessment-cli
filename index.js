@@ -11,10 +11,10 @@ class BookSearch {
     apiKey = "AIzaSyAAOCTRfoHkv8KW7h3BjVvIe-z_NIZYgig"
 
     fetchBooks(query) {
-      fetch(this.baseUrl+`${query}&projection=lite&key=${this.apiKey}`)
-        .then(res => res.json())
-        .then(data => {
-          this.filterData(data)
+        fetch(this.baseUrl+`${query}&projection=lite&key=${this.apiKey}`)
+            .then(res => res.json())
+            .then(data => {
+             this.filterData(data)
         })
     }
 
@@ -38,42 +38,44 @@ class BookSearch {
         console.log("To add a book to your reading list enter the number of the book")
         console.log("To see your reading list type 'list'")
         console.log("To start a new search type 'search'")
+
         let input = prompt("Enter search term: ")
         console.log("")
         input = input.toLowerCase()
+
         if(Number(input) >= 1 && Number(input) <= data.length){
-          this.myBooks.push(data[Number(input) - 1])
-          this.addBook(data)
+            this.myBooks.push(data[Number(input) - 1])
+            this.addBook(data)
         } else if (input === "list"){
-          console.log("")
-          console.log("YOUR READING LIST:")
-          this.myBooks.length === 0 ? console.log("Your reading list is empty") : this.myBooks.forEach((book, ind) => this.displayVolumeData(ind, book.volumeInfo))
-          this.addBook(data)
+            console.log("")
+            console.log("YOUR READING LIST:")
+            this.myBooks.length === 0 ? console.log("Your reading list is empty") : this.myBooks.forEach((book, ind) => this.displayVolumeData(ind, book.volumeInfo))
+            this.addBook(data)
         } else if (input === "search") {
-          this.getBooks()
+            this.getBooks()
         } else if (input === "exit") {
-          return
+            return
         } else {
-          console.log("PLEASE ENTER CORRECT INPUT")
-          this.addBook(data)
+            console.log("PLEASE ENTER CORRECT INPUT")
+            this.addBook(data)
         }
       }
       
     getBooks(){
-      console.log("Welcome to the Book Finder app!")  
-      console.log("To exit the program at any time type 'exit'")  
-      const term = prompt('Enter search term: ')
-      console.log("")
-      if(term === "exit") {
-        return
-      } 
-      else if (term.trim() === "" || Number(term)) {
-        console.log("PLEASE ENTER CORRECT INPUT")
-        this.getBooks()
-      } 
-      else {
-        this.fetchBooks(term)
-      }
+        console.log("Welcome to the Book Finder app!")  
+        console.log("To exit the program at any time type 'exit'")  
+        const term = prompt('Enter search term: ')
+        console.log("")
+        if(term === "exit") {
+            return
+        } 
+        else if (term.trim() === "" || Number(term)) {
+            console.log("PLEASE ENTER CORRECT INPUT")
+            this.getBooks()
+        } 
+        else {
+            this.fetchBooks(term)
+        }
     }
       
 }
