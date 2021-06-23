@@ -39,12 +39,13 @@ class BookSearch {
         console.log("To see your reading list type 'list'")
         console.log("To start a new search type 'search'")
 
-        let input = prompt("Enter search term: ")
+        let input = prompt("Type your input here: ")
         console.log("")
         input = input.toLowerCase()
 
         if(Number(input) >= 1 && Number(input) <= data.length){
             this.myBooks.push(data[Number(input) - 1])
+            console.log("The book has been successfully added to your collection!")
             this.addBook(data)
         } else if (input === "list"){
             console.log("")
@@ -64,7 +65,7 @@ class BookSearch {
     getBooks(){
         console.log("Welcome to the Book Finder app!")  
         console.log("To exit the program at any time type 'exit'")  
-        const term = prompt('Enter search term: ')
+        const term = prompt('Type your input here: ')
         console.log("")
         if(term === "exit") {
             return
