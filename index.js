@@ -6,6 +6,7 @@ class BookSearch {
     constructor() {
       this.myBooks = []
       this.myFuncCalls = 0
+      this.searchFuncCalls = 0
     }
 
     baseUrl = "https://www.googleapis.com/books/v1/volumes?q="
@@ -37,7 +38,7 @@ class BookSearch {
     addBook(data){
         this.myFuncCalls++
         console.log("")
-        if(this.myFuncCalls < 2) {
+        if(this.myFuncCalls < 2 || (this.searchFuncCalls > 0 && this.myFuncCalls < 2 ) || this.myFuncCalls > 0) {
             console.log("To add a book to your reading list enter the number of the book")
         } else {
             console.log("To add another book to your reading list enter the number of the book")
@@ -53,7 +54,7 @@ class BookSearch {
             this.myBooks.push(data[Number(input) - 1])
             console.log("The book has been successfully added to your collection!")
             this.addBook(data)
-        } else if (input === "list"){
+        } else if (input === "list") {
             console.log("")
             console.log("YOUR READING LIST:")
             this.myBooks.length === 0 ? console.log("Your reading list is empty") : this.myBooks.forEach((book, ind) => this.displayVolumeData(ind, book.volumeInfo))
@@ -62,13 +63,30 @@ class BookSearch {
             this.handleSearchInput()
         } else if (input === "exit") {
             return
+        } else if (Number(input) >= data.length) {
+            // this.searchFuncCalls++
+            console.log(`The book number ${Number(input)} doesn't exist. Please enter correct book number`)
+            this.handleCorrectBookNumberInput(data)
         } else {
             console.log("PLEASE ENTER CORRECT INPUT")
             this.addBook(data)
         }
       }
 
+      handleCorrectBookNumberInput(data) {
+          // this.searchFuncCalls++
+          let input = prompt("")
+          console.log("")
+          input = input.toLowerCase()
+          if(Number(input) >= 1 && Number(input) <= data.length){
+              this.myBooks.push(data[Number(input) - 1])
+              console.log("The book has been successfully added to your collection!")
+              this.addBook(data)
+          }
+      }
+
       handleSearchInput(){
+          this.searchFuncCalls++
           const term = prompt('Enter the title or the author name of the book here: ')
           console.log("")
           if(term === "exit") {
