@@ -10,7 +10,7 @@ class BookSearch {
     baseUrl = "https://www.googleapis.com/books/v1/volumes?q="
     apiKey = "AIzaSyAAOCTRfoHkv8KW7h3BjVvIe-z_NIZYgig"
 
-    fetchBooks(query) {
+    getBooks(query) {
         fetch(this.baseUrl+`${query}&projection=lite&key=${this.apiKey}`)
             .then(res => res.json())
             .then(data => {
@@ -33,6 +33,10 @@ class BookSearch {
         console.log("")
     }
 
+    interactionWithUser(){
+
+    }
+
     addBook(data){
         console.log("")
         console.log("To add a book to your reading list enter the number of the book")
@@ -53,7 +57,8 @@ class BookSearch {
             this.myBooks.length === 0 ? console.log("Your reading list is empty") : this.myBooks.forEach((book, ind) => this.displayVolumeData(ind, book.volumeInfo))
             this.addBook(data)
         } else if (input === "search") {
-            this.getBooks()
+            this.handleSearchInput()
+            // this.getBooks()
         } else if (input === "exit") {
             return
         } else {
@@ -61,25 +66,44 @@ class BookSearch {
             this.addBook(data)
         }
       }
-      
-    getBooks(){
-        console.log("Welcome to the Book Finder app!")  
-        console.log("To exit the program at any time type 'exit'")  
-        const term = prompt('Type your input here: ')
+
+      handleSearchInput(){
+          const term = prompt('Enter the title or the author name of the book here: ')
+          console.log("")
+          if(term === "exit") {
+              return
+          }
+          else if (term.trim() === "" || Number(term)) {
+              console.log("PLEASE ENTER CORRECT INPUT")
+              this.handleSearchInput()
+          }
+          else {
+              this.getBooks(term)
+          }
+      }
+
+      greeting(){
+          console.log("Welcome to the Book Finder app!")
+          console.log("To exit the program at any time type 'exit'")
+      }
+
+      start(){
+        this.greeting()
+        const term = prompt('Enter the title or the author name of the book here: ')
         console.log("")
         if(term === "exit") {
             return
         } 
         else if (term.trim() === "" || Number(term)) {
             console.log("PLEASE ENTER CORRECT INPUT")
-            this.getBooks()
+            this.start()
         } 
         else {
-            this.fetchBooks(term)
+            this.getBooks(term)
         }
     }
       
 }
 
 const newSearch = new BookSearch([])
-newSearch.getBooks()
+newSearch.start()
