@@ -5,6 +5,7 @@ class BookSearch {
 
     constructor(myBooks) {
       this.myBooks = myBooks
+      this.myFuncCalls = 0
     }
 
     baseUrl = "https://www.googleapis.com/books/v1/volumes?q="
@@ -33,13 +34,14 @@ class BookSearch {
         console.log("")
     }
 
-    interactionWithUser(){
-
-    }
-
     addBook(data){
+        this.myFuncCalls++
         console.log("")
-        console.log("To add a book to your reading list enter the number of the book")
+        if(this.myFuncCalls < 2) {
+            console.log("To add a book to your reading list enter the number of the book")
+        } else {
+            console.log("To add another book to your reading list enter the number of the book")
+        }
         console.log("To see your reading list type 'list'")
         console.log("To start a new search type 'search'")
 
@@ -58,7 +60,6 @@ class BookSearch {
             this.addBook(data)
         } else if (input === "search") {
             this.handleSearchInput()
-            // this.getBooks()
         } else if (input === "exit") {
             return
         } else {
