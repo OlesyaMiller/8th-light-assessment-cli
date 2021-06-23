@@ -3,8 +3,8 @@ const prompt = require('prompt-sync')({sigint: true});
 
 class BookSearch {
 
-    constructor(myBooks) {
-      this.myBooks = myBooks
+    constructor() {
+      this.myBooks = []
       this.myFuncCalls = 0
     }
 
