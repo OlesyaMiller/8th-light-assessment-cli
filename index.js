@@ -5,8 +5,6 @@ class BookSearch {
 
     constructor() {
       this.myBooks = []
-      this.myFuncCalls = 0
-      this.searchFuncCalls = 0
     }
 
     baseUrl = "https://www.googleapis.com/books/v1/volumes?q="
@@ -35,30 +33,25 @@ class BookSearch {
         console.log("")
     }
 
-    addBook(data){
-        this.myFuncCalls++
+    addBook(data, arg = ''){
         console.log("")
-        if(this.myFuncCalls < 2 || (this.searchFuncCalls > 0 && this.myFuncCalls < 2 ) || this.myFuncCalls > 0) {
-            console.log("To add a book to your reading list enter the number of the book")
-        } else {
-            console.log("To add another book to your reading list enter the number of the book")
-        }
+        console.log(`To add ${arg} book to your reading list enter the number of the book`)
         console.log("To see your reading list type 'list'")
         console.log("To start a new search type 'search'")
 
-        let input = prompt("Type your input here: ")
+        let input = prompt("")
         console.log("")
         input = input.toLowerCase()
 
         if(Number(input) >= 1 && Number(input) <= data.length){
             this.myBooks.push(data[Number(input) - 1])
             console.log("The book has been successfully added to your collection!")
-            this.addBook(data)
+            this.addBook(data, arg="another")
         } else if (input === "list") {
             console.log("")
             console.log("YOUR READING LIST:")
             this.myBooks.length === 0 ? console.log("Your reading list is empty") : this.myBooks.forEach((book, ind) => this.displayVolumeData(ind, book.volumeInfo))
-            this.addBook(data)
+            this.addBook(data, "another")
         } else if (input === "search") {
             this.handleSearchInput()
         } else if (input === "exit") {
@@ -69,7 +62,7 @@ class BookSearch {
             this.handleCorrectBookNumberInput(data)
         } else {
             console.log("PLEASE ENTER CORRECT INPUT")
-            this.addBook(data)
+            this.addBook(data, "another")
         }
       }
 
@@ -81,13 +74,14 @@ class BookSearch {
           if(Number(input) >= 1 && Number(input) <= data.length){
               this.myBooks.push(data[Number(input) - 1])
               console.log("The book has been successfully added to your collection!")
-              this.addBook(data)
+              this.addBook(data,"another")
           }
       }
 
       handleSearchInput(){
-          this.searchFuncCalls++
-          const term = prompt('Enter the title or the author name of the book here: ')
+          // this.searchFuncCalls++
+          this.greetingHelper()
+          const term = prompt('')
           console.log("")
           if(term === "exit") {
               return
@@ -104,11 +98,16 @@ class BookSearch {
       greeting(){
           console.log("Welcome to the Book Finder app!")
           console.log("To exit the program at any time type 'exit'")
+          this.greetingHelper()
+      }
+
+      greetingHelper() {
+          console.log('Enter the title or the author name of the book')
       }
 
       start(){
         this.greeting()
-        const term = prompt('Enter the title or the author name of the book here: ')
+        const term = prompt('')
         console.log("")
         if(term === "exit") {
             return
