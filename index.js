@@ -40,26 +40,22 @@ class BookSearch {
         console.log("To start a new search type 'search'")
     }
 
-    addBookk(data, input) {
+    addBook(data, input) {
         this.myBooks.push(data[Number(input) - 1])
-        console.log("The book has been successfully added to your collection!")
+        console.log("THE BOOK HAS BEEN ADDED TO YOUR READING LIST!")
         this.handleInput(data)
     }
 
     handleInput(data){
         console.log("")
         this.interactionWithUser()
-
         let input = prompt("")
         console.log("")
         input = input.toLowerCase()
-
         if(Number(input) >= 1 && Number(input) <= data.length){
-            this.addBookk(data, input)
+            this.addBook(data, input)
         } else if (input === "list") {
-            console.log("")
-            console.log("YOUR READING LIST:")
-            this.myBooks.length === 0 ? console.log("Your reading list is empty") : this.myBooks.forEach((book, ind) => this.displayVolumeData(ind, book.volumeInfo))
+            this.displayReadingList()
             this.handleInput(data)
         } else if (input === "search") {
             this.start()
@@ -74,6 +70,12 @@ class BookSearch {
         }
       }
 
+      displayReadingList() {
+          console.log("")
+          console.log("YOUR READING LIST:")
+          this.myBooks.length === 0 ? console.log("Your reading list is empty") : this.myBooks.forEach((book, ind) => this.displayVolumeData(ind, book.volumeInfo))
+      }
+
       greeting(){
           console.log("Welcome to the Book Finder app!")
           console.log("To exit the program at any time type 'exit'")
@@ -81,7 +83,7 @@ class BookSearch {
       }
 
       searchPrompt() {
-          console.log('Enter the title or the author name of the book')
+          console.log('Enter the title or the author of the book')
       }
 
       start(){
@@ -92,7 +94,7 @@ class BookSearch {
           if(term === "exit") {
               return
           }
-          else if (term.trim() === "" || Number(term)) {
+          else if (term.trim() === "" || Number(term) || typeof term === "symbol"){
               console.log("PLEASE ENTER CORRECT INPUT")
               this.start()
           }
@@ -100,8 +102,6 @@ class BookSearch {
               this.getBooks(term)
           }
     }
-      
 }
-
-const newSearch = new BookSearch([])
+const newSearch = new BookSearch()
 newSearch.start()
