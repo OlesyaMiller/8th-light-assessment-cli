@@ -79,7 +79,7 @@ export class BookSearch {
         if(input === "exit") {
             return
         }
-        else if (input.trim() === "" || Number(input) || "[@_!#$%^&*()<>?/|}{~:`-+=.,']".includes(input) || '"'.includes(input) || this.checkInputForSymbolsComb(input)) {
+        else if (input.trim() === "" || Number(input) || '"'.includes(input) || this.checkInputForSymbolsComb(input)) {
             console.log("PLEASE ENTER CORRECT INPUT")
             this.start()
         }
