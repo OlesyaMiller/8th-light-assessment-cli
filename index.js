@@ -4,7 +4,8 @@ const prompt = require('prompt-sync')({sigint: true});
 class BookSearch {
 
     constructor() {
-      this.myBooks = []
+        this.myBooks = []
+        this.counter = 0
     }
 
     baseUrl = "https://www.googleapis.com/books/v1/volumes?q="
@@ -76,27 +77,28 @@ class BookSearch {
       greeting(){
           console.log("Welcome to the Book Finder app!")
           console.log("To exit the program at any time type 'exit'")
-          this.greetingHelper()
+          this.searchPrompt()
       }
 
-      greetingHelper() {
+      searchPrompt() {
           console.log('Enter the title or the author name of the book')
       }
 
       start(){
-        this.greeting()
-        const term = prompt('')
-        console.log("")
-        if(term === "exit") {
-            return
-        } 
-        else if (term.trim() === "" || Number(term)) {
-            console.log("PLEASE ENTER CORRECT INPUT")
-            this.start()
-        } 
-        else {
-            this.getBooks(term)
-        }
+          this.counter++
+          this.counter > 1 ? this.searchPrompt() : this.greeting()
+          const term = prompt('')
+          console.log("")
+          if(term === "exit") {
+              return
+          }
+          else if (term.trim() === "" || Number(term)) {
+              console.log("PLEASE ENTER CORRECT INPUT")
+              this.start()
+          }
+          else {
+              this.getBooks(term)
+          }
     }
       
 }
