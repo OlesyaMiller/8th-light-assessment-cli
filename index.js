@@ -106,3 +106,6 @@ export class BookSearch {
 const newSearch = new BookSearch()
 newSearch.start()
 
+// {
+//  "presets": ["@babel/preset-env"]
+//}
