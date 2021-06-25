@@ -1,9 +1,8 @@
-import {BookSearch} from "./index";
-import fetchMock from "jest-fetch-mock";
+import {BookSearch} from "./test";
 const inst = new BookSearch()
 
 let returnedData
-fetchMock(this.baseUrl+`${query}&projection=lite&key=${this.apiKey}`)
+fetch(this.baseUrl+`${query}&projection=lite&key=${this.apiKey}`)
     .then(res => res.json())
     .then(data => {
         returnedData = data

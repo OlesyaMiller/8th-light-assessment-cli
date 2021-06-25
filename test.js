@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 import PromptSync from 'prompt-sync';
 const prompt = new PromptSync({sigint:true})
 
-class BookSearch {
+export class BookSearch {
 
     constructor() {
         this.myBooks = []
