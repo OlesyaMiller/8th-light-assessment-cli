@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 import PromptSync from 'prompt-sync';
 const prompt = new PromptSync({sigint:true})
-
+    // <script type="module" src="milsymbol-2.0.0/src/milsymbol.js"></script>
 export class BookSearch {
 
     constructor() {
