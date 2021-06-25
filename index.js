@@ -34,12 +34,6 @@ class BookSearch {
         console.log("")
     }
 
-    interactionWithUser(){
-        console.log(`To add book to your reading list enter the number of the book`)
-        console.log("To see your reading list type 'list'")
-        console.log("To start a new search type 'search'")
-    }
-
     addBook(data, input) {
         this.myBooks.push(data[Number(input) - 1])
         console.log("THE BOOK HAS BEEN ADDED TO YOUR READING LIST!")
@@ -76,31 +70,37 @@ class BookSearch {
           this.myBooks.length === 0 ? console.log("Your reading list is empty") : this.myBooks.forEach((book, ind) => this.displayVolumeData(ind, book.volumeInfo))
       }
 
-      greeting(){
-          console.log("Welcome to the Book Finder app!")
-          console.log("To exit the program at any time type 'exit'")
-          this.searchPrompt()
-      }
-
-      searchPrompt() {
-          console.log('Enter the title or the author of the book')
-      }
-
       start(){
           this.counter++
           this.counter > 1 ? this.searchPrompt() : this.greeting()
-          const term = prompt('')
+          const input = prompt('')
           console.log("")
-          if(term === "exit") {
+          if(input === "exit") {
               return
           }
-          else if (term.trim() === "" || Number(term) || typeof term === "symbol"){
+          else if (input.trim() === "" || Number(input) || typeof input === "symbol"){
               console.log("PLEASE ENTER CORRECT INPUT")
               this.start()
           }
           else {
-              this.getBooks(term)
+              this.getBooks(input)
           }
+    }
+
+    interactionWithUser(){
+        console.log(`To add book to your reading list enter the number of the book`)
+        console.log("To see your reading list type 'list'")
+        console.log("To start a new search type 'search'")
+    }
+
+    searchPrompt() {
+        console.log('Enter the title or the author of the book')
+    }
+
+    greeting(){
+        console.log("Welcome to the Book Finder app!")
+        console.log("To exit the program at any time type 'exit'")
+        this.searchPrompt()
     }
 }
 const newSearch = new BookSearch()
