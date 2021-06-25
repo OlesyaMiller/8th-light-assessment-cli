@@ -21,7 +21,7 @@ class BookSearch {
     filterData(data){
         const filteredData = data.items.filter(volume => volume.volumeInfo.publisher && volume.volumeInfo.authors).slice(0,5)
         filteredData.forEach((volume, index) => this.displayVolumeData(index, volume.volumeInfo))
-        this.addBook(filteredData)
+        this.handleInput(filteredData)
     }
 
     displayVolumeData(ind, volume) {
@@ -33,55 +33,58 @@ class BookSearch {
         console.log("")
     }
 
-    interactionWithUser(helperArg){
-        console.log(`To add ${helperArg} book to your reading list enter the number of the book`)
+    interactionWithUser(){
+        console.log(`To add book to your reading list enter the number of the book`)
         console.log("To see your reading list type 'list'")
         console.log("To start a new search type 'search'")
     }
 
-    addBook(data, helperArg = ''){
+    addBookk(data, input) {
+        this.myBooks.push(data[Number(input) - 1])
+        console.log("The book has been successfully added to your collection!")
+        this.handleInput(data)
+    }
+
+    handleInput(data){
         console.log("")
-        this.interactionWithUser(helperArg)
+        this.interactionWithUser()
 
         let input = prompt("")
         console.log("")
         input = input.toLowerCase()
 
         if(Number(input) >= 1 && Number(input) <= data.length){
-            this.myBooks.push(data[Number(input) - 1])
-            console.log("The book has been successfully added to your collection!")
-            this.addBook(data, "another")
+            this.addBookk(data, input)
         } else if (input === "list") {
             console.log("")
             console.log("YOUR READING LIST:")
             this.myBooks.length === 0 ? console.log("Your reading list is empty") : this.myBooks.forEach((book, ind) => this.displayVolumeData(ind, book.volumeInfo))
-            this.addBook(data, "another")
+            this.handleInput(data)
         } else if (input === "search") {
             this.handleSearchInput()
         } else if (input === "exit") {
             return
         } else if (Number(input) >= data.length) {
             console.log(`The book number ${Number(input)} doesn't exist. Please enter correct book number`)
-            this.handleCorrectBookNumberInput(data)
+            this.handleInput(data)
         } else {
             console.log("PLEASE ENTER CORRECT INPUT")
-            this.addBook(data, "another")
+            this.handleInput(data)
         }
       }
 
-      handleCorrectBookNumberInput(data) {
-          let input = prompt("")
-          console.log("")
-          input = input.toLowerCase()
-          if(Number(input) >= 1 && Number(input) <= data.length){
-              this.myBooks.push(data[Number(input) - 1])
-              console.log("The book has been successfully added to your collection!")
-              this.addBook(data,"another")
-          }
-      }
+      // handleIncorrectInput(data) {
+      //     let input = prompt("")
+      //     console.log("")
+      //     input = input.toLowerCase()
+      //     if(Number(input) >= 1 && Number(input) <= data.length){
+      //         this.myBooks.push(data[Number(input) - 1])
+      //         console.log("The book has been successfully added to your collection!")
+      //         this.addBook(data)
+      //     }
+      // }
 
       handleSearchInput(){
-          // this.searchFuncCalls++
           this.greetingHelper()
           const term = prompt('')
           console.log("")
