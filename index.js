@@ -61,7 +61,7 @@ class BookSearch {
             this.myBooks.length === 0 ? console.log("Your reading list is empty") : this.myBooks.forEach((book, ind) => this.displayVolumeData(ind, book.volumeInfo))
             this.handleInput(data)
         } else if (input === "search") {
-            this.handleSearchInput()
+            this.start()
         } else if (input === "exit") {
             return
         } else if (Number(input) >= data.length) {
@@ -71,33 +71,6 @@ class BookSearch {
             console.log("PLEASE ENTER CORRECT INPUT")
             this.handleInput(data)
         }
-      }
-
-      // handleIncorrectInput(data) {
-      //     let input = prompt("")
-      //     console.log("")
-      //     input = input.toLowerCase()
-      //     if(Number(input) >= 1 && Number(input) <= data.length){
-      //         this.myBooks.push(data[Number(input) - 1])
-      //         console.log("The book has been successfully added to your collection!")
-      //         this.addBook(data)
-      //     }
-      // }
-
-      handleSearchInput(){
-          this.greetingHelper()
-          const term = prompt('')
-          console.log("")
-          if(term === "exit") {
-              return
-          }
-          else if (term.trim() === "" || Number(term)) {
-              console.log("PLEASE ENTER CORRECT INPUT")
-              this.handleSearchInput()
-          }
-          else {
-              this.getBooks(term)
-          }
       }
 
       greeting(){
