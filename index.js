@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 const prompt = require('prompt-sync')({sigint: true});
 
-export class BookSearch {
+class BookSearch {
 
     constructor() {
         this.myBooks = []
@@ -88,10 +88,12 @@ export class BookSearch {
     }
 
     checkInputForSymbolsComb(input) {
-        console.log(input.split(""))
-        input.split("").forEach(symbol => {
-            "[@_!#$%^&*()<>?/|}{~:`-+=.,']".includes(symbol) ? false : true
-        })
+        const inputToArray = input.split("")
+        for(let i = 0; i < inputToArray.length; i++) {
+            if("[@_!#$%^&*()<>?/|}{~:`-+=.,']".includes(inputToArray[i])) {
+                return true
+            }
+        }
     }
 
     interactionWithUser(){

@@ -10,11 +10,6 @@ fetchMock(this.baseUrl+`${query}&projection=lite&key=${this.apiKey}`)
     })
 
 describe('#start', function() {
-    it("should increment the counter by 1 each time it is called", function() {
-        let counter = 0
-        inst.start()
-        expect(counter).toEqual(1)
-    });
     it( "should call helper methods",function() {
         inst.start()
         expect(inst.greeting).toHaveBeenCalled()
@@ -40,18 +35,18 @@ describe("#filterData", function () {
     })
 
 })
-// describe("getBooks", function () {
-//     it("should fetch data from Google Books API", async () => {
-//         let query = "Harry"
-//         expect(inst.getBooks(query))
-//         // await request()
-//         //     .get(`/googleapis.com/books/v1/volumes?q=${query}&projection=lite&key=AIzaSyAAOCTRfoHkv8KW7h3BjVvIe-z_NIZYgig`)
-//         //     .expect(200)
-//         //     .then((res) => {
-//         //         res.items.forEach(item => {
-//         //             expect(item.title || item.author).toContain(query);
-//         //         })
-//         //     })
-//
-//     })
-// })
+
+describe("getBooks", function () {
+    it("should fetch data from Google Books API", async () => {
+        let query = "Harry"
+        expect(inst.getBooks(query))
+        await request()
+            .get(`/googleapis.com/books/v1/volumes?q=${query}&projection=lite&key=AIzaSyAAOCTRfoHkv8KW7h3BjVvIe-z_NIZYgig`)
+            .expect(200)
+            .then((res) => {
+                res.items.forEach(item => {
+                    expect(item.title || item.author).toContain(query);
+                })
+            })
+    })
+})
