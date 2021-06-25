@@ -78,7 +78,7 @@ class BookSearch {
           if(input === "exit") {
               return
           }
-          else if (input.trim() === "" || Number(input) || typeof input === "symbol"){
+          else if (input.trim() === "" || Number(input) || "[@_!#$%^&*()<>?/|}{~:`-+=.,']".includes(input) || '"'.includes(input)) {
               console.log("PLEASE ENTER CORRECT INPUT")
               this.start()
           }
@@ -105,3 +105,4 @@ class BookSearch {
 }
 const newSearch = new BookSearch()
 newSearch.start()
+
